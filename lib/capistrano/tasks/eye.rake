@@ -2,7 +2,8 @@ namespace :eye do
   task :load do
     on release_roles(:app) do
       within(release_path) do
-        execute :eye, :load, fetch(:eye_config)
+        execute :mkdir, "-pv", "$HOME/eye"
+        execute :eye, :load,  fetch(:eye_config, "./config/#{fetch(:application)}.eye")
       end
     end
   end
@@ -10,7 +11,7 @@ namespace :eye do
   %w(start stop restart info).each do |cmd|
     task cmd.to_sym do
       on roles(:app) do
-        execute :eye, cmd.to_sym, fetch(:eye_application)
+        execute :eye, cmd.to_sym, fetch(:eye_application, fetch(:application))
       end
     end
   end
@@ -19,9 +20,4 @@ namespace :eye do
   before :restart, :load
 end
 
-namespace :load do
-  task :defaults do
-    set :eye_config, fetch(:eye_config, "./config/#{fetch(:application)}.eye")
-    set :eye_application, fetch(:eye_application, fetch(:application))
-  end
-end
+after 'deploy:publishing', 'eye:restart'
