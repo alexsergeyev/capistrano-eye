@@ -1,1 +1,1 @@
-load File.expand_path("../tasks/eye.rake", __FILE__)
+load File.expand_path("../tasks/deploy_eye.cap", __FILE__)

@@ -4,13 +4,37 @@ Wrap all application processes by [eye]('https://github.com/kostya/eye') monitor
 
 ## Installation
 
+Add this line to your Gemfile:
 
-    gem 'capistrano-eye', github: 'alexsergeyev/capistrano-eye'
+```ruby
+gem 'capistrano-eye'
+```
 
-Enable it in Capfile
+And then run:
 
-    require 'capistrano/eye'
+```bash
+$ bundle
+```
 
+## Usage
+
+Add this line to your `Capfile` and `deploy:restart` will be setup to automatically run after `:publishing` is complete:
+
+```ruby
+require 'capistrano/eye'
+```
+
+The following tasks are available: `eye:load`, `eye:start`, `eye:stop`, `eye:restart`, `eye:info`
+
+If you want the task to run at a different point in your deployment, require `capistrano/eye/no_hook` instead of `capistrano/eye` and then add your own hook in `config/deploy.rb`.
+
+``` ruby
+# Capfile
+require 'capistrano/eye/no_hook'
+
+# config/deploy.rb
+after :some_other_task, :'eye:restart'
+```
 
 ## Configuration
     set :eye_application # capistrano application name by default

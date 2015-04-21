@@ -20,4 +20,3 @@ namespace :eye do
   before :restart, :load
 end
 
-after 'deploy:publishing', 'eye:restart'
