@@ -1,23 +1,43 @@
 namespace :eye do
   task :load do
-    on release_roles(:app) do
-      within(release_path) do
-        execute :mkdir, "-pv", "$HOME/eye"
-        execute :eye, :load,  fetch(:eye_config, "./config/#{fetch(:application)}.eye")
+    on roles(fetch(:eye_roles)) do
+      with fetch(:eye_env) do
+        within(release_path) do
+          execute :eye, :load, fetch(:eye_config)
+        end
       end
     end
   end
 
-  %w(start stop restart info).each do |cmd|
-    task cmd.to_sym do
-      on roles(:app) do
-        execute :eye, cmd.to_sym, fetch(:eye_application, fetch(:application))
+  %i(start stop restart).each do |cmd|
+    task cmd do
+      on roles(fetch(:eye_roles)) do
+        with fetch(:eye_env) do
+          execute :eye, cmd, fetch(:eye_application)
+        end
+      end
+    end
+  end
+
+  task :info do
+    on roles(fetch(:eye_roles)) do
+      with fetch(:eye_env) do
+        puts capture(:eye, :info, fetch(:eye_application))
       end
     end
   end
 
   before :start, :load
   before :restart, :load
+end
+
+namespace :load do
+  task :defaults do
+    set :eye_roles, :app
+    set :eye_env, -> { {rails_env: fetch(:stage)} }
+    set :eye_application, -> { fetch(:application) }
+    set :eye_config, -> { "./config/#{fetch(:application)}.eye" }
+  end
 end
 
 after 'deploy:publishing', 'eye:restart'
