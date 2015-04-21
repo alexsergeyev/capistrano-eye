@@ -9,12 +9,20 @@ namespace :eye do
     end
   end
 
-  %i(start stop restart info).each do |cmd|
+  %i(start stop restart).each do |cmd|
     task cmd do
       on roles(fetch(:eye_roles)) do
         with fetch(:eye_env) do
           execute :eye, cmd, fetch(:eye_application)
         end
+      end
+    end
+  end
+
+  task :info do
+    on roles(fetch(:eye_roles)) do
+      with fetch(:eye_env) do
+        puts capture(:eye, :info, fetch(:eye_application))
       end
     end
   end
