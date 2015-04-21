@@ -1,10 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'capistrano/eye/version'
 
 Gem::Specification.new do |gem|
   gem.name          = 'capistrano-eye'
-  gem.version       = '0.0.2'
+  gem.version       = Capistrano::Eye::VERSION
   gem.authors       = ['Alex Sergeyev']
   gem.email         = ['alex.sergeyev@gmail.com']
   gem.summary       = %q(Capistrano eye tasks)
