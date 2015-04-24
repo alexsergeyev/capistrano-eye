@@ -23,7 +23,8 @@ namespace :eye do
 
   task :info do
     desc 'Show application status'
-    on roles(fetch(:eye_roles)) do
+    on roles(fetch(:eye_roles)) do |server|
+      puts server.hostname
       with fetch(:eye_env) do
         puts capture(:eye, :info, fetch(:eye_application))
       end
