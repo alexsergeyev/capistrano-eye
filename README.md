@@ -24,7 +24,7 @@ Add this line to your `Capfile` and `deploy:restart` will be setup to automatica
 require 'capistrano/eye'
 ```
 
-The following tasks are available: `eye:load`, `eye:start`, `eye:stop`, `eye:restart`, `eye:info`
+The following tasks are available: `eye:load`, `eye:start`, `eye:stop`, `eye:quit`, `eye:restart`, `eye:info`
 
 If you want the task to run at a different point in your deployment, require `capistrano/eye/no_hook` instead of `capistrano/eye` and then add your own hook in `config/deploy.rb`.
 
