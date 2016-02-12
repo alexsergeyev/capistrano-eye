@@ -35,6 +35,17 @@ namespace :eye do
     end
   end
 
+  task :quit do
+    desc 'Quit eye'
+    on roles(fetch(:eye_roles)) do |server|
+      with fetch(:eye_env) do
+        within(release_path) do
+          execute :eye, :quit
+        end
+      end
+    end
+  end
+
   before :start, :load
   before :restart, :load
 end
