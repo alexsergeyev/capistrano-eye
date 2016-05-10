@@ -53,7 +53,7 @@ end
 namespace :load do
   task :defaults do
     set :eye_roles, :app
-    set :eye_env, -> { { rails_env: fetch(:stage) } }
+    set :eye_env, -> { { rails_env: fetch(:rails_env) || fetch(:stage) } }
     set :eye_application, -> { fetch(:application) }
     set :eye_config, -> { "./config/#{fetch(:application)}.eye" }
   end
