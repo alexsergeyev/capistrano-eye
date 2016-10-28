@@ -10,7 +10,7 @@ namespace :eye do
     end
   end
 
-  %i(start stop restart).each do |cmd|
+  [:start, :stop, :restart].each do |cmd|
     desc "Run 'eye #{cmd}'"
     task cmd do
       on roles(fetch(:eye_roles)) do
