@@ -62,6 +62,6 @@ namespace :load do
     set :rvm_map_bins, fetch(:rvm_map_bins).to_a << 'eye'
     set :chruby_map_bins, fetch(:chruby_map_bins).to_a << 'eye'
     # Bundler integration
-    set :bundle_bins, fetch(:bundle_bins).to_a << 'eye'
+    set :bundle_bins, fetch(:bundle_bins).to_a << 'eye' if defined?(Eye)
   end
 end
