@@ -37,8 +37,13 @@ after :some_other_task, :'eye:restart'
 ```
 
 ## Configuration
-    set :eye_application # capistrano application name by default
-    set :eye_config,     # ./config/eye_application.eye
+```ruby
+set :eye_roles, :app # the role of the server where the eye should be started
+set :eye_env, -> { { rails_env: fetch(:stage) } } # capistrano environment
+set :eye_application, -> { fetch(:application) } # capistrano application name by default
+set :eye_config, -> { "./config/#{fetch(:application)}.eye" } # ./config/eye_application.eye
+set :eye_work_dir, -> { release_path } # working directory path for eye
+```
 
 ## Contributing
 

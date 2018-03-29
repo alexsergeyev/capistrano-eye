@@ -3,7 +3,7 @@ namespace :eye do
   task :load do
     on roles(fetch(:eye_roles)) do
       with fetch(:eye_env) do
-        within(release_path) do
+        within fetch(:eye_work_dir) do
           execute :eye, :load, fetch(:eye_config)
         end
       end
@@ -15,7 +15,7 @@ namespace :eye do
     task cmd do
       on roles(fetch(:eye_roles)) do
         with fetch(:eye_env) do
-          within(release_path) do
+          within fetch(:eye_work_dir) do
             execute :eye, cmd, fetch(:eye_application)
           end
         end
@@ -28,7 +28,7 @@ namespace :eye do
     on roles(fetch(:eye_roles)) do |server|
       puts server.hostname
       with fetch(:eye_env) do
-        within(release_path) do
+        within fetch(:eye_work_dir) do
           puts capture(:eye, :info, fetch(:eye_application))
         end
       end
@@ -56,6 +56,7 @@ namespace :load do
     set :eye_env, -> { { rails_env: fetch(:rails_env) || fetch(:stage) } }
     set :eye_application, -> { fetch(:application) }
     set :eye_config, -> { "./config/#{fetch(:application)}.eye" }
+    set :eye_work_dir, -> { release_path }
 
     # Rbenv, Chruby, and RVM integration
     set :rbenv_map_bins, fetch(:rbenv_map_bins).to_a << 'eye'
